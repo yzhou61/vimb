@@ -41,5 +41,6 @@ void hints_create(const char *input, guint mode, const guint prefixLength);
 void hints_update(const gulong num);
 void hints_clear();
 void hints_focus_next(const gboolean back);
+void hints_fire(void);
 
 #endif /* end of include guard: _HINTS_H */

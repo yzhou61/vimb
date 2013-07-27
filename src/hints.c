@@ -39,7 +39,6 @@ static struct {
 extern VbCore vb;
 
 static void run_script(char *js);
-static void fire();
 static void observe_input(gboolean observe);
 static gboolean changed_cb(GtkEditable *entry);
 static gboolean keypress_cb(WebKitWebView *webview, GdkEventKey *event);
@@ -125,6 +124,13 @@ void hints_focus_next(const gboolean back)
     g_free(js);
 }
 
+void hints_fire(void)
+{
+    char *js = g_strdup_printf("%s.fire();", HINT_VAR);
+    run_script(js);
+    g_free(js);
+}
+
 static void run_script(char *js)
 {
     char *value = NULL;
@@ -178,13 +184,6 @@ static void run_script(char *js)
     g_free(value);
 }
 
-static void fire()
-{
-    char *js = g_strdup_printf("%s.fire();", HINT_VAR);
-    run_script(js);
-    g_free(js);
-}
-
 static void observe_input(gboolean observe)
 {
     if (observe) {
@@ -219,7 +218,7 @@ static gboolean keypress_cb(WebKitWebView *webview, GdkEventKey *event)
     guint state  = CLEAN_STATE_WITH_SHIFT(event);
 
     if (keyval == GDK_Return) {
-        fire();
+        hints_fire();
         return true;
     }
     if (keyval == GDK_BackSpace && (state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)) {

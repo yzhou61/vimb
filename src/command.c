@@ -95,6 +95,7 @@ static CommandInfo cmd_list[] = {
     {"hint-image-tabopen",        NULL,    command_hints,                {HINTS_TYPE_IMAGE | HINTS_PROCESS_OPEN | HINTS_OPEN_NEW}},
     {"hint-editor",               NULL,    command_hints,                {HINTS_TYPE_EDITABLE}},
     {"hint-save",                 NULL,    command_hints,                {HINTS_TYPE_LINK | HINTS_PROCESS_SAVE}},
+    {"hint-fire",                 NULL,    command_hints,                {-1}},
     {"yank-uri",                  "yu",    command_yank,                 {VB_CLIPBOARD_PRIMARY | VB_CLIPBOARD_SECONDARY | COMMAND_YANK_URI}},
     {"yank-selection",            "ys",    command_yank,                 {VB_CLIPBOARD_PRIMARY | VB_CLIPBOARD_SECONDARY | COMMAND_YANK_SELECTION}},
     {"search-forward",            NULL,    command_search,               {VB_SEARCH_FORWARD}},
@@ -474,6 +475,13 @@ gboolean command_hints(const Arg *arg)
 {
     int mode = arg->i;
     char *prefix = "";
+
+    if (mode < 0) {
+        hints_fire();
+
+        return true;
+    }
+
     /* set prefix string according to hint type */
     switch (HINTS_GET_TYPE(mode)) {
         case HINTS_TYPE_LINK:
