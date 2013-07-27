@@ -32,6 +32,9 @@
 #include "history.h"
 #include "session.h"
 #include "default.h"
+#ifdef FEATURE_IPC
+#include "atom.h"
+#endif
 
 /* variables */
 static char **args;
@@ -747,6 +750,10 @@ static void init_core(void)
     vb_update_input_style();
     /* make sure the main window and all its contents are visible */
     gtk_widget_show_all(gui->window);
+
+#ifdef FEATURE_IPC
+    atom_init();
+#endif
 }
 
 static void read_config(void)
