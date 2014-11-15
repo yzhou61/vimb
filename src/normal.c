@@ -86,13 +86,13 @@ static struct {
 /* ^F  0x06 */ {normal_scroll},
 /* ^G  0x07 */ {NULL},
 /* ^H  0x08 */ {NULL},
-/* ^I  0x09 */ {normal_navigate},
+/* ^I  0x09 */ {NULL},
 /* ^J  0x0a */ {NULL},
 /* ^K  0x0b */ {NULL},
 /* ^L  0x0c */ {NULL},
 /* ^M  0x0d */ {NULL},
 /* ^N  0x0e */ {NULL},
-/* ^O  0x0f */ {normal_navigate},
+/* ^O  0x0f */ {NULL},
 /* ^P  0x10 */ {normal_queue},
 /* ^Q  0x11 */ {normal_quit},
 /* ^R  0x12 */ {NULL},
@@ -149,11 +149,11 @@ static struct {
 /* E   0x45 */ {NULL},
 /* F   0x46 */ {normal_ex},
 /* G   0x47 */ {normal_scroll},
-/* H   0x48 */ {NULL},
+/* H   0x48 */ {normal_navigate},
 /* I   0x49 */ {NULL},
 /* J   0x4a */ {NULL},
 /* K   0x4b */ {NULL},
-/* L   0x4c */ {NULL},
+/* L   0x4c */ {normal_navigate},
 /* M   0x4d */ {NULL},
 /* N   0x4e */ {normal_search},
 /* O   0x4f */ {normal_input_open},
@@ -436,9 +436,8 @@ static VbResult normal_g_cmd(const NormalCmdInfo *info)
         case 'g':
             return normal_scroll(info);
 
-        case 'H':
         case 'h':
-            a.i = info->key2 == 'H' ? VB_TARGET_NEW : VB_TARGET_CURRENT;
+            a.i = VB_TARGET_CURRENT;
             a.s = NULL;
             vb_load_uri(&a);
             return RESULT_COMPLETE;
@@ -542,10 +541,10 @@ static VbResult normal_navigate(const NormalCmdInfo *info)
 
     WebKitWebView *view = vb.gui.webview;
     switch (info->key) {
-        case CTRL('I'): /* fall through */
-        case CTRL('O'):
+        case 'H': /* fall through */
+        case 'L':
             count = info->count ? info->count : 1;
-            if (info->key == CTRL('O')) {
+            if (info->key == 'H') {
                 count *= -1;
             }
             webkit_web_view_go_back_or_forward(view, count);
@@ -776,7 +775,7 @@ static VbResult normal_view_source(const NormalCmdInfo *info)
 
 static VbResult normal_yank(const NormalCmdInfo *info)
 {
-    Arg a = {info->key == 'Y' ? COMMAND_YANK_SELECTION : COMMAND_YANK_URI};
+    Arg a = {info->key == 'y' ? COMMAND_YANK_SELECTION : COMMAND_YANK_URI};
 
     return command_yank(&a, info->reg) ? RESULT_COMPLETE : RESULT_ERROR;
 }

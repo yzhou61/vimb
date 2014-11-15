@@ -229,9 +229,9 @@ void setting_init()
 
     /* initialize the shortcuts and set the default shortcuts */
     shortcut_init();
-    shortcut_add("dl", "https://duckduckgo.com/html/?q=$0");
-    shortcut_add("dd", "https://duckduckgo.com/?q=$0");
-    shortcut_set_default("dl");
+    shortcut_add("s", "https://www.google.com/?gws_rd=ssl#safe=off&q=$0");
+    shortcut_add("map", "https://maps.google.com/maps?saddr=$0");
+    shortcut_set_default("s");
 
     /* initialize the handlers */
     handlers_init();

@@ -68,9 +68,9 @@
 #define SETTING_MAX_CONNS_PER_HOST   5
 /* default font size for fonts in webview */
 #define SETTING_DEFAULT_FONT_SIZE   10
-#define SETTING_GUI_FONT_NORMAL     "monospace normal 10"
-#define SETTING_GUI_FONT_EMPH       "monospace bold 10"
-#define SETTING_HOME_PAGE           "http://fanglingsu.github.io/vimb/"
+#define SETTING_GUI_FONT_NORMAL     "Courier 10 Pitch"
+#define SETTING_GUI_FONT_EMPH       "Courier 10 Pitch bold"
+#define SETTING_HOME_PAGE           "about:blank"
 
 #define MAXIMUM_HINTS              500
 
