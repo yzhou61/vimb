@@ -79,6 +79,7 @@ typedef enum {
     EX_SET,
     EX_SHELLCMD,
     EX_TABOPEN,
+    EX_VS,
 } ExCode;
 
 typedef enum {
@@ -149,6 +150,7 @@ static VbCmdResult ex_set(const ExArg *arg);
 static VbCmdResult ex_shellcmd(const ExArg *arg);
 static VbCmdResult ex_shortcut(const ExArg *arg);
 static VbCmdResult ex_handlers(const ExArg *arg);
+static VbCmdResult ex_vs(const ExArg *arg);
 
 static gboolean complete(short direction);
 static void completion_select(char *match);
@@ -199,6 +201,7 @@ static ExInfo commands[] = {
     {"shortcut-default", EX_SCD,         ex_shortcut,   EX_FLAG_RHS},
     {"shortcut-remove",  EX_SCR,         ex_shortcut,   EX_FLAG_RHS},
     {"tabopen",          EX_TABOPEN,     ex_open,       EX_FLAG_CMD},
+    {"vs",               EX_VS,          ex_vs,         EX_FLAG_NONE},
 };
 
 static struct {
@@ -846,6 +849,11 @@ static VbCmdResult ex_open(const ExArg *arg)
         return vb_load_uri(&((Arg){VB_TARGET_NEW, arg->rhs->str})) ? VB_CMD_SUCCESS : VB_CMD_ERROR;
     }
     return vb_load_uri(&((Arg){VB_TARGET_CURRENT, arg->rhs->str})) ? VB_CMD_SUCCESS :VB_CMD_ERROR;
+}
+
+static VbCmdResult ex_vs(const ExArg *arg)
+{
+    return vb_load_uri(&((Arg){VB_TARGET_NEW, vb.state.uri}));
 }
 
 #ifdef FEATURE_QUEUE
